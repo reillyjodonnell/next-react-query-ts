@@ -24,6 +24,5 @@ model Product {
   description String
   image       String
   price       Int
-  userId      String
   User        User[]
 }

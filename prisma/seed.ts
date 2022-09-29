@@ -3,21 +3,14 @@ import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 
 async function seed() {
-  const userData = seedUser();
-  const userRef = await db.user.create({ data: userData });
   await Promise.all(
     seedProducts().map((product) => {
-      const data = { User: userRef, ...product };
-      return db.product.create({ data });
+      return db.product.create({ data: product });
     })
   );
 }
 
 seed();
-
-function seedUser() {
-  return { firstName: 'Reilly', lastName: 'O', email: 'admin@reilly.dev' };
-}
 
 function seedProducts() {
   return [
