@@ -1,5 +1,5 @@
 export type Product = {
-  name: String;
+  name: string;
   description: String;
   image: String;
   price: Number;
