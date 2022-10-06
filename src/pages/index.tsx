@@ -52,6 +52,7 @@
 // }
 
 import { trpc } from '../utils/trpc';
+
 export default function IndexPage() {
   const hello = trpc.hello.useQuery({ text: 'client' });
   const products = trpc.items.useQuery({ text: 'products' });
@@ -68,6 +69,7 @@ export default function IndexPage() {
         return (
           <div key={`item-${item.name}`}>
             <span>{item?.name}</span>;
+            <img className="w-24 h-24" src={item.image} />
           </div>
         );
       })}
