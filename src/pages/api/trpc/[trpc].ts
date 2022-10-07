@@ -22,6 +22,7 @@ export const appRouter = t.router({
   items: t.procedure
     .input(z.object({ text: z.string().nullish() }).nullish())
     .query(async ({ input }) => {
+      console.log(input.text);
       const data = await prisma.product.findMany();
       return data;
     }),
