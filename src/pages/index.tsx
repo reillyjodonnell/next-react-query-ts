@@ -1,6 +1,8 @@
 import { trpc } from '../utils/trpc';
-
+import Cart from '~/components/cart';
+import { useState } from 'react';
 export default function IndexPage() {
+  const [items, setItems] = useState([]);
   const hello = trpc.posts.hello.useQuery();
   const products = trpc.posts.items.useQuery({ text: 'products' });
   if (!hello.data || !products.data) {
@@ -11,6 +13,7 @@ export default function IndexPage() {
     <div className="flex justify-center items-center bg-black">
       <div className="text-white">
         <p>{hello.data}</p>
+        <Cart items={items} />
         <div className="flex flex-col justify-center items-start">
           <span>Add new item</span>
           <div>
@@ -37,7 +40,14 @@ export default function IndexPage() {
               >
                 <span>{formattedPrice}</span>
                 <img className="w-24 h-24" src={item.image} />
-                <button className="flex px-4 py-1 my-2 border-2 border-stone-600 rounded-lg transition-all hover:bg-[#0000000c]">
+                <button
+                  onClick={() =>
+                    setItems((prev): any => {
+                      [...prev, { ...item }];
+                    })
+                  }
+                  className="flex px-4 py-1 my-2 border-2 border-stone-600 rounded-lg transition-all hover:bg-[#0000000c]"
+                >
                   Quick Buy
                 </button>
               </div>
