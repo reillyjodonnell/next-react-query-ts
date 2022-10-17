@@ -41,11 +41,7 @@ export default function IndexPage() {
                 <span>{formattedPrice}</span>
                 <img className="w-24 h-24" src={item.image} />
                 <button
-                  onClick={() =>
-                    setItems((prev): any => {
-                      [...prev, { ...item }];
-                    })
-                  }
+                  onClick={() => setItems((prev) => [...prev, item])}
                   className="flex px-4 py-1 my-2 border-2 border-stone-600 rounded-lg transition-all hover:bg-[#0000000c]"
                 >
                   Quick Buy
