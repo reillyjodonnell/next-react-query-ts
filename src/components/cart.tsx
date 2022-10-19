@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
-export default function Cart({ items }: any) {
+export default function Cart({ items, setItems }: any) {
   const [showExpanded, setShowExpanded] = useState(false);
 
   useEffect(() => {
     console.log(items);
   }, [items]);
 
+  const removeItem = (index) => {
+    console.log(items[index]);
+  };
+
   return (
-    <div
-      className="cursor-pointer"
-      onClick={() => setShowExpanded((prev) => !prev)}
-    >
-      <span className=" cursor-pointer">
+    <div className="cursor-pointer">
+      <span
+        onClick={() => setShowExpanded((prev) => !prev)}
+        className=" cursor-pointer"
+      >
         🛒
         <span className="border-white rounded-full p-2">
           {items.length ?? 0}
@@ -20,13 +24,28 @@ export default function Cart({ items }: any) {
       <div className="flex flex-col">
         {showExpanded
           ? items.map((item, index) => {
+              const formattedPrice = (item.price / 100).toLocaleString(
+                'en-US',
+                {
+                  style: 'currency',
+                  currency: 'USD',
+                }
+              );
+              const { name, image, quantity } = item;
               return (
-                <span
-                  className="px-4 py-2 my-2 border-white border-2"
-                  key={`cart-${index}`}
+                <div
+                  className="mx-2 flex  justify-center items-center"
+                  key={`item-${name}`}
                 >
-                  {item.name}
-                </span>
+                  <div>
+                    <img className="w-24 h-24" src={image} />
+                  </div>
+                  <div className="flex flex-col mx-2">
+                    <span>{formattedPrice}</span>
+                  </div>
+                  <span>{quantity}</span>
+                  <div onClick={() => removeItem(index)}>❌</div>
+                </div>
               );
             })
           : null}
