@@ -7,21 +7,22 @@ export default function IndexPage() {
   const products = trpc.posts.items.useQuery({ text: 'products' });
   const productData = products?.data;
 
-  useEffect(() => {
-    console.log(productData);
-    console.log(items);
-  }, [products, items]);
-
-  const addItem = useCallback(({ item, dupeIndex = -1 }) => {
-    if (dupeIndex !== -1)
-      setItems((prev) => [
-        ...prev,
-        { ...prev[dupeIndex], quantity: prev[dupeIndex]?.quanity + 1 ?? 1 },
-      ]);
-    else {
-      setItems((prev) => [...prev, { ...item, quantity: 1 }]);
-    }
-  }, []);
+  const addItem = useCallback(
+    ({ item }) => {
+      const dupe = items?.find((prod) => prod?.id === item.id);
+      const updatedArray = items?.map((product) => {
+        if (product?.id === item?.id) {
+          return { ...product, quantity: product.quantity + 1 };
+        } else return product;
+      });
+      if (dupe) {
+        setItems([...updatedArray]);
+      } else {
+        setItems([...updatedArray, { ...item, quantity: 1 }]);
+      }
+    },
+    [items]
+  );
 
   if (!hello.data || !products.data) {
     return <div>Loading...</div>;
@@ -51,14 +52,6 @@ export default function IndexPage() {
               currency: 'USD',
             });
 
-            const dupeIndex = items?.findIndex((product) => {
-              console.log(product?.id);
-              console.log(item?.id);
-
-              return product?.id === item?.id;
-            });
-            console.log(dupeIndex);
-
             return (
               <div
                 className="mx-2 flex flex-col justify-center items-center"
@@ -68,7 +61,7 @@ export default function IndexPage() {
                 <img className="w-24 h-24" src={item.image} />
                 <button
                   onClick={() => {
-                    addItem({ item, dupeIndex });
+                    addItem({ item });
                   }}
                   className="flex px-4 py-1 my-2 border-2 border-stone-600 rounded-lg transition-all hover:bg-[#0000000c]"
                 >
