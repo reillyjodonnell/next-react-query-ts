@@ -12,4 +12,8 @@ export const postsRouter = t.router({
       const data = await prisma.product.findMany();
       return data;
     }),
+
+  addItem: t.procedure.input(z.object({text: z.string().max(20)})).mutation(async ({input}) => {
+    console.log(input)
+  })
 });

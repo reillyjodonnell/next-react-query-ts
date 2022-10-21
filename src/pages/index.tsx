@@ -5,6 +5,7 @@ export default function IndexPage() {
   const [items, setItems] = useState([]);
   const hello = trpc.posts.hello.useQuery();
   const products = trpc.posts.items.useQuery({ text: 'products' });
+  const createItem = trpc.posts.addItem.useMutation();
   const productData = products?.data;
 
   const addItem = useCallback(
