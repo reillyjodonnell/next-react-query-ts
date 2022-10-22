@@ -11,7 +11,7 @@ export default function Cart({ items, setItems }: any) {
   };
 
   return (
-    <div className="cursor-pointer">
+    <div className="cursor-pointer text-xl">
       <span
         onClick={() => setShowExpanded((prev) => !prev)}
         className=" cursor-pointer"
