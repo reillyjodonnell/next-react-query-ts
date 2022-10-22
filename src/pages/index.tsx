@@ -3,10 +3,16 @@ import Cart from '~/components/cart';
 import { useState, useCallback, useEffect } from 'react';
 export default function IndexPage() {
   const [items, setItems] = useState([]);
+  const [itemName, setItemName] = useState('');
+
   const hello = trpc.posts.hello.useQuery();
   const products = trpc.posts.items.useQuery({ text: 'products' });
-  const createItem = trpc.posts.addItem.useMutation();
+  const create = trpc.posts.addItem.useMutation();
   const productData = products?.data;
+
+  const createItem = () => {
+    create.mutate({ text: itemName });
+  };
 
   const addItem = useCallback(
     ({ item }) => {
@@ -37,10 +43,14 @@ export default function IndexPage() {
           <span>Add new item</span>
           <div>
             <input
+              onChange={(e) => setItemName(e.target?.value)}
               placeholder="Add item..."
               className="bg-transparent px-2 py-1 border-2 border-white rounded-lg"
             />
-            <button className="border-2 mx-4 px-2 py-1 rounded-lg border-white">
+            <button
+              onClick={createItem}
+              className="border-2 mx-4 px-2 py-1 rounded-lg border-white"
+            >
               Add
             </button>
           </div>

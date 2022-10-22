@@ -13,7 +13,9 @@ export const postsRouter = t.router({
       return data;
     }),
 
-  addItem: t.procedure.input(z.object({text: z.string().max(20)})).mutation(async ({input}) => {
-    console.log(input)
-  })
+  addItem: t.procedure
+    .input(z.object({ text: z.string().max(20) }))
+    .mutation(async ({ input }) => {
+      console.log(input?.text ?? '');
+    }),
 });
