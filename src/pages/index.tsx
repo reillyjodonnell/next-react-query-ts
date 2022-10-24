@@ -1,36 +1,22 @@
 import { trpc } from '../utils/trpc';
 import Cart from '~/components/cart';
 import { useState, useCallback, useEffect } from 'react';
+import useCart from '~/hooks/useCart';
 export default function IndexPage() {
-  const [items, setItems] = useState([]);
   const [itemName, setItemName] = useState('');
+  const [item, setItem] = useState({});
+  const { items, setItems, addItem } = useCart();
 
   const products = trpc.posts.items.useQuery({ text: 'products' });
   const create = trpc.posts.addItem.useMutation();
   const productData = products?.data;
 
   const createItem = () => {
-    create.mutate({ text: itemName });
+    const data = create.mutate({ ...item });
+    console.log(data);
   };
 
-  const addItem = useCallback(
-    ({ item }) => {
-      const dupe = items?.find((prod) => prod?.id === item.id);
-      const updatedArray = items?.map((product) => {
-        if (product?.id === item?.id) {
-          return { ...product, quantity: product.quantity + 1 };
-        } else return product;
-      });
-      if (dupe) {
-        setItems([...updatedArray]);
-      } else {
-        setItems([...updatedArray, { ...item, quantity: 1 }]);
-      }
-    },
-    [items]
-  );
-
-  if (!products.data) {
+  if (!productData) {
     return <div>Loading...</div>;
   }
   return (
@@ -40,48 +26,71 @@ export default function IndexPage() {
         <div className="flex justify-end">
           <Cart setItems={setItems} items={items} />
         </div>
-
-        <div className="flex flex-col justify-center items-start">
-          <span>Add new item</span>
-          <div>
-            <input
-              onChange={(e) => setItemName(e.target?.value)}
-              placeholder="Add item..."
-              className="bg-transparent px-2 py-1 border-2 border-white rounded-lg"
-            />
-            <button
-              onClick={createItem}
-              className="border-2 mx-4 px-2 py-1 rounded-lg border-white"
-            >
-              Add
-            </button>
-          </div>
+        <div className="flex flex-col justify-center items-center">
+          {create?.isLoading ? (
+            <span>Loading</span>
+          ) : (
+            <div className="flex flex-col justify-center items-center">
+              <label className="flex flex-col my-2">
+                URL
+                <input
+                  className="text-black"
+                  onChange={(e) => setItem({ ...item, url: e?.target?.value })}
+                />
+              </label>
+              <label className="flex flex-col my-2">
+                Description
+                <input
+                  className="text-black"
+                  onChange={(e) =>
+                    setItem({ ...item, description: e?.target?.value })
+                  }
+                />
+              </label>
+              <label className="flex flex-col my-2">
+                Price
+                <input
+                  className="text-black"
+                  onChange={(e) =>
+                    setItem({ ...item, price: e?.target?.value })
+                  }
+                />
+              </label>
+              {create?.error ? <span>Uh oh!</span> : null}
+              <button
+                onClick={createItem}
+                className="border-2 mx-4 px-2 py-1 rounded-lg border-white"
+              >
+                Add Item
+              </button>
+            </div>
+          )}
         </div>
-
         <div className="flex my-12 ">
           {productData.map((item) => {
             const formattedPrice = (item.price / 100).toLocaleString('en-US', {
               style: 'currency',
               currency: 'USD',
             });
-
             return (
               <div
                 className="mx-8 flex flex-col justify-center items-center"
                 key={`item-${item.name}`}
               >
-                <img className="w-60 h-60 rounded-lg" src={item.image} />
+                <img
+                  className="w-60 h-60 rounded-lg cursor-pointer"
+                  src={item.image}
+                />
                 <div className="flex w-full mt-2">
                   <div className="flex flex-col justify-start">
                     <span>{formattedPrice}</span>
-
                     <span>{item?.description}</span>
                   </div>
                   <button
                     onClick={() => {
                       addItem({ item });
                     }}
-                    className="flex ml-auto w-fit h-fit p-[2px] border-2 border-stone-600 rounded-lg transition-all hover:bg-[#0000000c] hover:border-white"
+                    className="flex ml-auto w-fit h-fit py-[2px] px-2 border-2 border-stone-600 rounded-lg transition-all hover:bg-[#0000000c] hover:border-white"
                   >
                     Buy
                   </button>
