@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export default function useCart() {
-  const [items, setItems] = useState([]);
+export default function useCart(list = []) {
+  const [items, setItems] = useState(list);
 
   const addItem = ({ item }) => {
     const dupe = items?.find((prod) => prod?.id === item.id);

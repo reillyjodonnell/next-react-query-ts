@@ -1,12 +1,11 @@
 import { trpc } from '../utils/trpc';
 import Cart from '~/components/cart';
-import { useState, useCallback, useEffect } from 'react';
+import { useState } from 'react';
 import useCart from '~/hooks/useCart';
 export default function IndexPage() {
-  const [itemName, setItemName] = useState('');
   const [item, setItem] = useState({});
-  const { items, setItems, addItem } = useCart();
 
+  const { items, setItems, addItem } = useCart();
   const products = trpc.posts.items.useQuery({ text: 'products' });
   const create = trpc.posts.addItem.useMutation();
   const productData = products?.data;

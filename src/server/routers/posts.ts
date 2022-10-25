@@ -16,8 +16,8 @@ export const postsRouter = t.router({
   addItem: t.procedure
     .input(
       z.object({
-        url: z.string().max(40),
-        description: z.string().max(200),
+        url: z.string().max(40).min(1),
+        description: z.string().max(200).min(1),
         price: z.string().max(20),
       })
     )
