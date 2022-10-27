@@ -10,10 +10,14 @@ export default function IndexPage() {
   const create = trpc.posts.addItem.useMutation();
   const productData = products?.data;
 
-  const createItem = () => {
+  const createItem = (e) => {
+    e.preventDefault();
     const data = create.mutate({ ...item });
     console.log(data);
   };
+
+  console.log(create.error);
+  console.log(create.isError);
 
   if (!productData) {
     return <div>Loading...</div>;
@@ -33,14 +37,14 @@ export default function IndexPage() {
               <label className="flex flex-col my-2">
                 URL
                 <input
-                  className="text-black"
+                  className="text-white border-2 rounded-md border-white bg-transparent"
                   onChange={(e) => setItem({ ...item, url: e?.target?.value })}
                 />
               </label>
               <label className="flex flex-col my-2">
                 Description
                 <input
-                  className="text-black"
+                  className="text-white border-2 rounded-md border-white bg-transparent"
                   onChange={(e) =>
                     setItem({ ...item, description: e?.target?.value })
                   }
@@ -49,7 +53,7 @@ export default function IndexPage() {
               <label className="flex flex-col my-2">
                 Price
                 <input
-                  className="text-black"
+                  className="text-white border-2 rounded-md border-white bg-transparent"
                   onChange={(e) =>
                     setItem({ ...item, price: e?.target?.value })
                   }
@@ -57,7 +61,7 @@ export default function IndexPage() {
               </label>
               {create?.error ? <span>Uh oh!</span> : null}
               <button
-                onClick={createItem}
+                onClick={(e) => createItem(e)}
                 className="border-2 mx-4 px-2 py-1 rounded-lg border-white"
               >
                 Add Item
@@ -65,7 +69,7 @@ export default function IndexPage() {
             </div>
           )}
         </div>
-        <div className="flex my-12 ">
+        <div className="grid my-12 grid-cols-3 gap-y-8">
           {productData.map((item) => {
             const formattedPrice = (item.price / 100).toLocaleString('en-US', {
               style: 'currency',
