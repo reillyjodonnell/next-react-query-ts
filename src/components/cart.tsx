@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
-export default function Cart({ items, setItems }: any) {
+export default function Cart({ items, setItems, removeItem }: any) {
   const [showExpanded, setShowExpanded] = useState(false);
-
-  useEffect(() => {
-    console.log(items);
-  }, [items]);
-
-  const removeItem = (index) => {
-    console.log(items[index]);
-  };
 
   return (
     <div className="cursor-pointer text-xl">

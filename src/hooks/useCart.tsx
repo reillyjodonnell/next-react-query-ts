@@ -3,6 +3,20 @@ import { useState } from 'react';
 export default function useCart(list = []) {
   const [items, setItems] = useState(list);
 
+  const removeItem = ({ item }) => {
+    const updatedArray = items?.map((product) => {
+      if (product?.id === item?.id) {
+        console.log(product);
+        if (product.quantity > 1) {
+          return { ...product, quantity: product.quantity - 1 };
+        }
+        return product;
+      }
+    });
+
+    setItems([...updatedArray]);
+  };
+
   const addItem = ({ item }) => {
     const dupe = items?.find((prod) => prod?.id === item.id);
     const updatedArray = items?.map((product) => {
@@ -17,5 +31,5 @@ export default function useCart(list = []) {
     }
   };
 
-  return { items, setItems, addItem };
+  return { items, setItems, addItem, removeItem };
 }

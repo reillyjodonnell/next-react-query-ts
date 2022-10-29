@@ -6,7 +6,7 @@ export const postsRouter = t.router({
   hello: t.procedure.query(() => 'aye!'),
 
   items: t.procedure
-    .input(z.object({ text: z.string().nullish() }).nullish())
+    .input(z.object({ text: z.string().nullish() }))
     .query(async ({ input }) => {
       console.log(input.text);
       const data = await prisma.product.findMany();
