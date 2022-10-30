@@ -1,5 +1,11 @@
 import { useState } from 'react';
-export default function Cart({ items, setItems, removeItem }: any) {
+export default function Cart({
+  items,
+  setItems,
+  removeItem,
+  subtractQuantity,
+  increaseQuantity,
+}: any) {
   const [showExpanded, setShowExpanded] = useState(false);
 
   return (
@@ -36,7 +42,23 @@ export default function Cart({ items, setItems, removeItem }: any) {
                     <span>{formattedPrice}</span>
                   </div>
                   <span>{quantity}</span>
-                  <div onClick={() => removeItem({ id })}>❌</div>
+                  <div className="flex flex-col justify-center items-center mx-2">
+                    <span
+                      className="text-3xl"
+                      onClick={() => increaseQuantity({ id })}
+                    >
+                      +
+                    </span>
+                    <span
+                      className="text-3xl "
+                      onClick={() => subtractQuantity({ id })}
+                    >
+                      -
+                    </span>
+                  </div>
+                  <span className="text-xl " onClick={() => removeItem({ id })}>
+                    ❌
+                  </span>
                 </div>
               );
             })

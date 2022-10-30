@@ -5,7 +5,14 @@ import useCart from '~/hooks/useCart';
 export default function IndexPage() {
   const [item, setItem] = useState({});
 
-  const { items, setItems, addItem, removeItem } = useCart();
+  const {
+    items,
+    setItems,
+    addItem,
+    subtractQuantity,
+    increaseQuantity,
+    removeItem,
+  } = useCart();
   const products = trpc.posts.items.useQuery({ text: 'products' });
   const create = trpc.posts.addItem.useMutation();
   const productData = products?.data;
@@ -24,7 +31,13 @@ export default function IndexPage() {
       <span className="flex text-2xl text-white">Store Example</span>
       <div className="text-white">
         <div className="flex justify-end">
-          <Cart removeItem={removeItem} setItems={setItems} items={items} />
+          <Cart
+            subtractQuantity={subtractQuantity}
+            increaseQuantity={increaseQuantity}
+            removeItem={removeItem}
+            setItems={setItems}
+            items={items}
+          />
         </div>
         <div className="flex flex-col justify-center items-center">
           {create?.isLoading ? (
