@@ -13,4 +13,9 @@ export type AppRouter = typeof appRouter;
 export default trpcNext.createNextApiHandler({
   router: appRouter,
   createContext,
+  onError({ error, type, path, input, ctx, req }) {
+    console.error(error);
+    if (error.code === 'INTERNAL_SERVER_ERROR') {
+    }
+  },
 });

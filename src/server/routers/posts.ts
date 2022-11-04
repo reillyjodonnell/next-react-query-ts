@@ -12,10 +12,11 @@ export const postsRouter = t.router({
       return data;
     }),
 
+  //https://www.youtube.com/watch?v=_K34O0NcKAM
   addItem: t.procedure
     .input(
       z.object({
-        url: z.string().max(40).min(1),
+        url: z.string().url().max(40).min(1),
         description: z.string().max(200).min(1),
         price: z.string().max(20),
       })

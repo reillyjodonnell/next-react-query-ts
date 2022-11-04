@@ -20,8 +20,11 @@ export default function IndexPage() {
   const createItem = (e) => {
     e.preventDefault();
     const data = create.mutate({ ...item });
-    console.log(data);
   };
+
+  console.log(create.error);
+
+  // To implement validations check out https://kitchen-sink.trpc.io/react-hook-form?file=feature%2Freact-hook-form%2Findex.tsx#content
 
   if (!productData) {
     return <div>Loading...</div>;
