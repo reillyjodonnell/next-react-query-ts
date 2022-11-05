@@ -31,7 +31,7 @@ export default function IndexPage() {
   }
   return (
     <div className="flex justify-center items-center bg-black flex-col mt-4">
-      <span className="flex text-2xl text-white">Store Example</span>
+      <span className="flex text-2xl text-white">Store</span>
       <div className="text-white">
         <div className="flex justify-end">
           <Cart
