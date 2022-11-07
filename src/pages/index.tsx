@@ -2,6 +2,7 @@ import { trpc } from '../utils/trpc';
 import Cart from '~/components/cart';
 import { useState } from 'react';
 import useCart from '~/hooks/useCart';
+
 export default function IndexPage() {
   const [item, setItem] = useState({});
 
