@@ -3,13 +3,11 @@ import { z } from 'zod';
 import { prisma } from '~/server/prisma';
 
 export const postsRouter = t.router({
-  hello: t.procedure.query(() => 'aye!'),
-
   items: t.procedure
     .input(z.object({ text: z.string().nullish() }))
     .query(async ({ input }) => {
       const data = await prisma.product.findMany();
-      return data;
+      return { items: data };
     }),
 
   //https://www.youtube.com/watch?v=_K34O0NcKAM

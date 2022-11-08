@@ -1,6 +1,6 @@
 import { trpc } from '../utils/trpc';
 import Cart from '~/components/cart';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useCart from '~/hooks/useCart';
 
 export default function IndexPage() {
@@ -14,9 +14,15 @@ export default function IndexPage() {
     increaseQuantity,
     removeItem,
   } = useCart();
-  const products = trpc.posts.items.useQuery({ text: 'products' });
+
   const create = trpc.posts.addItem.useMutation();
-  const productData = products?.data;
+
+  const products = trpc.posts.items.useQuery({ text: 'products' });
+  const productData = products?.data?.items ?? [];
+
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
 
   const createItem = (e) => {
     e.preventDefault();
@@ -28,8 +34,9 @@ export default function IndexPage() {
   // To implement validations check out https://kitchen-sink.trpc.io/react-hook-form?file=feature%2Freact-hook-form%2Findex.tsx#content
 
   if (!productData) {
-    return <div>Loading...</div>;
+    return <div className="text-white">Loading...</div>;
   }
+
   return (
     <div>
       <Header
