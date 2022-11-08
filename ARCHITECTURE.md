@@ -29,3 +29,7 @@ To break the monotony of generating types to match the API structure we are usin
 ### tailwind
 
 I love CSS but love colocating, never having to worry about dupe names, and utility classes more.
+
+## Roadmap
+
+- Implement Client validation for forms (example: https://kitchen-sink.trpc.io/react-hook-form?file=feature%2Freact-hook-form%2Findex.tsx#content)
