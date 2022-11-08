@@ -34,34 +34,40 @@ export default function Cart({
                 const { name, image, quantity, id } = item;
                 return (
                   <div
-                    className="mx-2 flex  justify-center items-center"
+                    className="mx-2 py-4 border-b border-[#ffffff17] flex h-[200px] w-[250px] justify-center items-center"
                     key={`item-${name}`}
                   >
-                    <img className="w-24 h-24" src={image} />
-                    <div className="flex flex-col mx-2">
-                      <span>{formattedPrice}</span>
-                    </div>
-                    <span>{quantity}</span>
-                    <div className="flex flex-col justify-center items-center mx-2">
+                    <img className="w-full h-full" src={image} />
+                    <div className="flex flex-col justify-center items-start h-full">
+                      <div className="flex flex-col mx-2 mb-6">
+                        <span className="text-xl font-bold">{name}</span>
+
+                        <span className="text-sm font-light">
+                          {formattedPrice}
+                        </span>
+                      </div>
+                      <div className="flex justify-start items-center mx-2 w-full">
+                        <div
+                          onClick={() => increaseQuantity({ id })}
+                          className="flex justify-center items-center border border-white rounded-[50%] mr-4 text-center h-6 w-6"
+                        >
+                          +
+                        </div>
+                        <span className="mr-4">{quantity}</span>
+                        <div
+                          onClick={() => subtractQuantity({ id })}
+                          className="flex justify-center items-center border border-white rounded-[50%] mr-4 text-center h-6 w-6"
+                        >
+                          -
+                        </div>
+                      </div>
                       <span
-                        className="text-3xl"
-                        onClick={() => increaseQuantity({ id })}
+                        className="text-xl mt-auto"
+                        onClick={() => removeItem({ id })}
                       >
-                        +
-                      </span>
-                      <span
-                        className="text-3xl "
-                        onClick={() => subtractQuantity({ id })}
-                      >
-                        -
+                        ❌
                       </span>
                     </div>
-                    <span
-                      className="text-xl "
-                      onClick={() => removeItem({ id })}
-                    >
-                      ❌
-                    </span>
                   </div>
                 );
               })
